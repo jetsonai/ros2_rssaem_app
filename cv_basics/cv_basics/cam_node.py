@@ -4,24 +4,27 @@
 #
 # Author: Kate Kim
 
-import rclpy 
-from rclpy.node import Node 
-from sensor_msgs.msg import Image 
-import cv2 
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+import cv2
 from cv_bridge import CvBridge, CvBridgeError
 
-gst_str = ("nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)640, height=(int)480, format=(string)NV12, framerate=(fraction)60/1 ! nvvidconv flip-method=2 ! video/x-raw, width=(int)640, height=(int)480, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink")
+from cv_basics.config import get_capture
+
 
 def main(args=None):
-  
+
     rclpy.init()
     node = rclpy.create_node("cam_viewer")
 
     global bridge
     bridge = CvBridge()
 
-    #cap = cv2.VideoCapture(0)
-    cap = cv2.VideoCapture(gst_str)
+    # 젯슨이면 CSI(nvarguscamerasrc), 그 외(일반 PC)면 USB 웹캠(index 0)을 자동으로 사용.
+    # 강제로 지정하려면 get_capture(force="jetson") / get_capture(force="usb") 사용,
+    # 또는 실행 시 CAMERA_BACKEND=usb 같은 환경변수로 지정 가능 (config.py 참고).
+    cap = get_capture()
     if not (cap.isOpened()):
         print("Could not open video device")
     # To set the resolution
@@ -43,7 +46,7 @@ def main(args=None):
 
     node.destroy_node()
     rclpy.shutdown()
-  
+
 if __name__ == '__main__':
   main()
 

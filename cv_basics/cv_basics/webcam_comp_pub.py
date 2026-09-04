@@ -11,12 +11,8 @@ from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy, QoSDur
 import cv2
 from sensor_msgs.msg import CompressedImage
 
-gst_str = (
-    "nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)640, height=(int)480, "
-    "format=(string)NV12, framerate=(fraction)60/1 ! nvvidconv flip-method=2 ! "
-    "video/x-raw, width=(int)640, height=(int)480, format=(string)BGRx ! "
-    "videoconvert ! video/x-raw, format=(string)BGR ! appsink"
-)
+from cv_basics.config import get_capture
+
 
 class ImagePublisher(Node):
     def __init__(self):
@@ -40,9 +36,12 @@ class ImagePublisher(Node):
         timer_period = 0.033  # 30Hz 권장 (원본 0.001s는 로그/CPU 과부하 유발 가능)
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
-        self.cap = cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
+        # 젯슨이면 CSI(nvarguscamerasrc), 그 외(일반 PC)면 USB 웹캠(index 0)을 자동으로 사용.
+        # 강제로 지정하려면 get_capture(force="jetson") / get_capture(force="usb") 사용,
+        # 또는 실행 시 CAMERA_BACKEND=usb 같은 환경변수로 지정 가능 (config.py 참고).
+        self.cap = get_capture()
         if not self.cap.isOpened():
-            self.get_logger().error('Failed to open camera with GStreamer pipeline.')
+            self.get_logger().error('Failed to open camera.')
         else:
             self.get_logger().info('Camera opened.')
 
