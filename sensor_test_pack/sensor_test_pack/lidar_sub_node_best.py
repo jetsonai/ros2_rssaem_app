@@ -4,7 +4,7 @@
 #
 # Author: Kate Kim
 # colcon build --packages-select sensor_test_pack
-# ros2 run sensor_test_pack lidar_sub_node
+# ros2 run sensor_test_pack lidar_node_best
 
 import rclpy # Python library for ROS 2
 from rclpy.node import Node # Handles the creation of nodes
