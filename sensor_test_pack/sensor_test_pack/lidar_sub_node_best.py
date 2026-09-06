@@ -31,7 +31,6 @@ class LidarSubscriber(Node):
           qos_profile=qos)
         self.subscription # prevent unused variable warning
 
-   
     def listener_callback(self, data):
         global ranges_list
         ranges_list = data.ranges
@@ -59,9 +58,6 @@ class LidarSubscriber(Node):
         print("bSafe:{}".format(bSafe))
         return bSafe
 
-
-
- 
 def main(args=None):
 
     rclpy.init(args=args)
