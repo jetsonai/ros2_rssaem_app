@@ -24,6 +24,7 @@ setup(
       	   'webcam_sub = cv_basics.webcam_sub:main',
       	   'cam_node = cv_basics.cam_node:main',
            'webcam_comp_pub = cv_basics.webcam_comp_pub:main',
+           'webcam_comp_sub = cv_basics.webcam_comp_sub:main',
         ],
     },
 )
