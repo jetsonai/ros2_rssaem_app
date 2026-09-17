@@ -14,10 +14,7 @@ from sensor_msgs.msg import CompressedImage
 
 import ultralytics
 
-# 패키지 이름을 몰라서 일단 평범한 import로 둡니다.
-# config.py 를 이 노드가 속한 ROS2 패키지의 안쪽 모듈 폴더에 넣으신 뒤,
-# 패키지 이름에 맞게 예: `from yolo_test.config import get_capture` 로 바꿔주세요.
-from config import get_capture
+from yolo_test.config import get_capture
 
 ultralytics.checks()
 
