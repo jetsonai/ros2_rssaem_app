@@ -22,7 +22,7 @@ from ultralytics import YOLO
 
 trt_model = YOLO("/home/rssaem/CHECK/yolo26n.engine")
 
-class YoloFramePublisher(Node):
+class YoloCompFramePublisher(Node):
 
     def __init__(self):
         super().__init__('yolo_comp_pub')
@@ -83,7 +83,7 @@ class YoloFramePublisher(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    yolo_publisher = YoloFramePublisher()
+    yolo_publisher = YoloCompFramePublisher()
 
     try:
         rclpy.spin(yolo_publisher)
