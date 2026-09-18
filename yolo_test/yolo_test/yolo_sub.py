@@ -10,7 +10,7 @@ from sensor_msgs.msg import Image
 import cv2 
 from cv_bridge import CvBridge, CvBridgeError
  
-class ImageSubscriber(Node):
+class YoloFrameSubscriber(Node):
 
   def __init__(self):
     super().__init__('yolo_sub')
@@ -35,7 +35,7 @@ class ImageSubscriber(Node):
 def main(args=None):
 
   rclpy.init(args=args)
-  image_subscriber = ImageSubscriber() 
+  image_subscriber = YoloFrameSubscriber() 
   rclpy.spin(image_subscriber)
   image_subscriber.destroy_node()
   rclpy.shutdown()
